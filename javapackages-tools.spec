@@ -1,39 +1,42 @@
 %bcond_without xmvn_generator
 %bcond_without ivy
 
-%global default_jdk %{_prefix}/lib/jvm/java-21-openjdk
-%global default_jre %{_prefix}/lib/jvm/jre-21-openjdk
+%global default_jdk %{_prefix}/lib/jvm/java
+%global default_jre %{_prefix}/lib/jvm/jre
 
 %global maven_home %{_usr}/share/xmvn
 
 Name:           javapackages-tools
-Version:        6.2.0
+Version:        6.4.0
 Release:        3
 Summary:        Macros and scripts for Java packaging support
 License:        BSD-3-Clause
 URL:            https://github.com/fedora-java/javapackages
 BuildArch:      noarch
 
-Source0:        https://github.com/fedora-java/javapackages/archive/%{version}.tar.gz
-Source3:        javapackages-config.json
+Source0:        https://github.com/fedora-java/javapackages/archive/%{version}.tar.gz#/javapackages-%{version}.tar.gz
+#Source3:        javapackages-config.json
 
 Source8:        toolchains-openjdk8.xml
 Source11:       toolchains-openjdk11.xml
 Source17:       toolchains-openjdk17.xml
 Source21:       toolchains-openjdk21.xml
+Source999:      toolchains-generic.xml
 
 Patch0:         0001-coverage-use-usercustomize.patch
-Patch1:		javapackages-no-dupes.patch
+Patch1:         javapackages-no-dupes.patch
 
 BuildRequires:  coreutils
 BuildRequires:  which
 BuildRequires:  make
 BuildRequires:  asciidoc
 BuildRequires:  xmlto
-BuildRequires:  python-devel
-BuildRequires:  python-lxml
-BuildRequires:  python-setuptools
-BuildRequires:  python-pytest
+BuildRequires:  python3-devel
+BuildRequires:  python3-lxml
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-pytest
+BuildRequires:  asciidoctor
+BuildRequires:  python-unversioned-command
 
 Requires:       javapackages-filesystem = %{version}-%{release}
 Requires:       coreutils
@@ -84,11 +87,11 @@ This package implements local mode for Apache Ivy, which allows
 artifact resolution using XMvn resolver.
 %endif
 
-%package -n python-javapackages
+%package -n python3-javapackages
 Summary:        Module for handling various files for Java packaging
-Requires:       python-lxml
+Requires:       python3-lxml
 
-%description -n python-javapackages
+%description -n python3-javapackages
 Module for handling, querying and manipulating of various files for Java
 packaging in Linux distributions
 
@@ -148,6 +151,16 @@ Requires:       java-11-openjdk-devel
 %description -n maven-local-openjdk11
 OpenJDK 11 toolchain for XMvn
 
+
+%package -n maven-local-generic
+Summary:        Java toolchain for XMvn
+RemovePathPostfixes: -generic
+Requires:       maven-local
+Requires:       java-11-openjdk-devel
+
+%description -n maven-local-generic
+Java toolchain for XMvn
+
 %package -n maven-local-openjdk17
 Summary:        OpenJDK 17 toolchain for XMvn
 RemovePathPostfixes: -openjdk17
@@ -193,8 +206,9 @@ cp -p %{SOURCE8} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk8
 cp -p %{SOURCE11} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk11
 cp -p %{SOURCE17} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk17
 cp -p %{SOURCE21} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk21
+cp -p %{SOURCE999} %{buildroot}%{maven_home}/conf/toolchains.xml-generic
 
-install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/java/javapackages-config.json
+#install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/java/javapackages-config.json
 
 # Don't own standard directories
 sed -i -e '/fileattrs$/d' files-generators
@@ -248,5 +262,9 @@ ln -s %{_datadir}/java-utils %{buildroot}%{_usr}/share/java-utils
 %dir %{maven_home}/conf
 %{maven_home}/conf/toolchains.xml-openjdk21
 
-%files -n python-javapackages -f files-python
+%files -n maven-local-generic
+%dir %{maven_home}/conf
+%{maven_home}/conf/toolchains.xml-generic
+
+%files -n python3-javapackages -f files-python
 %license LICENSE
