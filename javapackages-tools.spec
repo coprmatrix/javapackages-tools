@@ -43,7 +43,7 @@ Requires:       coreutils
 Requires:       findutils
 Requires:       which
 # default JRE
-Requires:       jdk-current
+Requires:       java
 
 Provides:       jpackage-utils = %{version}-%{release}
 
