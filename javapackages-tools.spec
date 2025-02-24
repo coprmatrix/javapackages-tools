@@ -21,7 +21,7 @@ Source8:        toolchains-openjdk8.xml
 Source11:       toolchains-openjdk11.xml
 Source17:       toolchains-openjdk17.xml
 Source21:       toolchains-openjdk21.xml
-Source999:      toolchains-generic.xml
+Source999:      toolchains-unbound.xml
 
 Patch0:         0001-coverage-use-usercustomize.patch
 Patch1:         javapackages-no-dupes.patch
@@ -152,13 +152,12 @@ Requires:       java-11-openjdk-devel
 OpenJDK 11 toolchain for XMvn
 
 
-%package -n maven-local-generic
+%package -n maven-local-unbound
 Summary:        Java toolchain for XMvn
-RemovePathPostfixes: -generic
+RemovePathPostfixes: -unbound
 Requires:       maven-local
-Requires:       java-11-openjdk-devel
 
-%description -n maven-local-generic
+%description -n maven-local-unbound
 Java toolchain for XMvn
 
 %package -n maven-local-openjdk17
@@ -206,7 +205,7 @@ cp -p %{SOURCE8} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk8
 cp -p %{SOURCE11} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk11
 cp -p %{SOURCE17} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk17
 cp -p %{SOURCE21} %{buildroot}%{maven_home}/conf/toolchains.xml-openjdk21
-cp -p %{SOURCE999} %{buildroot}%{maven_home}/conf/toolchains.xml-generic
+cp -p %{SOURCE999} %{buildroot}%{maven_home}/conf/toolchains.xml-unbound
 
 #install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/java/javapackages-config.json
 
@@ -262,9 +261,9 @@ ln -s %{_datadir}/java-utils %{buildroot}%{_usr}/share/java-utils
 %dir %{maven_home}/conf
 %{maven_home}/conf/toolchains.xml-openjdk21
 
-%files -n maven-local-generic
+%files -n maven-local-unbound
 %dir %{maven_home}/conf
-%{maven_home}/conf/toolchains.xml-generic
+%{maven_home}/conf/toolchains.xml-unbound
 
 %files -n python3-javapackages -f files-python
 %license LICENSE
