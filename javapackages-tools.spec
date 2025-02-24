@@ -99,7 +99,7 @@ packaging in Linux distributions
 Summary:        Non-essential macros and scripts for Java packaging support
 Requires:       javapackages-common = %{version}-%{release}
 # Java build systems don't have hard requirement on java-devel, so it should be there
-Requires:       jdk-current
+Requires:       java
 Requires:       xmvn-tools
 %if %{with xmvn_generator}
 Requires:       xmvn-generator
