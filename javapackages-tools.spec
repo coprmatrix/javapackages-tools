@@ -15,8 +15,6 @@ URL:            https://github.com/fedora-java/javapackages
 BuildArch:      noarch
 
 Source0:        https://github.com/fedora-java/javapackages/archive/%{version}.tar.gz#/javapackages-%{version}.tar.gz
-#Source3:        javapackages-config.json
-
 Source8:        toolchains-openjdk8.xml
 Source11:       toolchains-openjdk11.xml
 Source17:       toolchains-openjdk17.xml
