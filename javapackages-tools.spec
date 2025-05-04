@@ -8,7 +8,7 @@
 
 Name:           javapackages-tools
 Version:        6.4.0
-Release:        5
+Release:        6
 Summary:        Macros and scripts for Java packaging support
 License:        BSD-3-Clause
 URL:            https://github.com/fedora-java/javapackages
@@ -238,6 +238,12 @@ ln -s %{_datadir}/java-utils %{buildroot}%{_usr}/share/java-utils
 %files -n javapackages-local
 
 %files -n maven-local
+
+%post
+if [[ ! -e %{_sysconfdir}/java/maven.conf ]]
+then
+  touch %{_sysconfdir}/java/maven.conf
+fi
 
 %if %{with ivy}
 %files -n ivy-local -f files-ivy
